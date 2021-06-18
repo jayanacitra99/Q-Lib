@@ -1,0 +1,128 @@
+header {
+    background-image: url("/public/images/cover.png");
+    background-size: cover;
+    height: 622px;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1A508B;
+    border-color: #1A508B;
+    font-size: 14px;
+    border-radius: 15px;
+    padding: 5px 20px 5px 20px;
+}
+
+.btn-secondary {
+    color: #fff;
+    background: none;
+    border-color: #fff;
+    font-size: 14px;
+    border-radius: 15px;
+    padding: 5px 20px 5px 20px;
+}
+
+header h1 {
+    text-align: center;
+    color: #fff;
+    font-size: 36px;
+}
+
+.heading {
+    align-content: center;
+}
+
+.heading input {
+    border-radius: 15px;
+    border-color: #fff;
+}
+
+.heading svg {
+    color: #fff;
+}
+
+.heading .input-group {
+    width: 800px;
+    margin: auto;
+}
+
+.jurnal {
+    background-color: #1A508B;
+    color: #fff;
+    height: 245px;
+    width: 245px;
+    text-align: center;
+    position: absolute;
+    margin-left: 100px;
+    border-radius: 36px;
+}
+
+.ebook {
+    background-color: #1A508B;
+    color: #fff;
+    height: 245px;
+    width: 245px;
+    text-align: center;
+    position: absolute;
+    margin-left: 440px;
+    border-radius: 36px;
+}
+
+.article {
+    background-color: #1A508B;
+    color: #fff;
+    height: 245px;
+    width: 245px;
+    text-align: center;
+    position: absolute;
+    margin-left: 780px;
+    border-radius: 36px;
+}
+
+.cards svg {
+    margin-top: 60px;
+    margin-bottom: 10px;
+}
+
+.newrelease {
+    margin-top: 180px;
+}
+
+footer {
+    background-color: #1A508B;
+    height: 320px;
+}
+
+footer .contact {
+    margin-left: 160px;
+}
+
+footer .address {
+    margin-left: 150px;
+}
+
+.catalogue {
+    background-image: url("/public/images/cover.png");
+    background-size: cover;
+    height: 275px;
+}
+
+.form-book {
+    margin-top: 35px;
+    padding: 20px;
+    border: #9b9b9b solid 1px;
+    border-radius: 30px;
+}
+
+.sign {
+    background-image: none;
+}
+
+.sign .btn-secondary {
+    color: #1A508B;
+    background: none;
+    border-color: #1A508B;
+    font-size: 14px;
+    border-radius: 15px;
+    padding: 5px 20px 5px 20px;
+}
