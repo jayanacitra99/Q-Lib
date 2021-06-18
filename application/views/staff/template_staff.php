@@ -49,7 +49,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="<?php echo base_url()?>Admin" class="nav-link">Home</a>
+        <a href="<?php echo base_url()?>Staff" class="nav-link">Home</a>
       </li>
     </ul>
 
@@ -85,52 +85,23 @@
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview menu-open">
             <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
+              <i class="nav-icon fas fa-book-open"></i>
               <p>
-                Users
+                Books
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?php echo base_url()?>Admin/viewUsers" class="nav-link">
+                <a href="<?php echo base_url()?>Staff/viewBooks" class="nav-link">
                   <i class="fa fa-list nav-icon"></i>
-                  <p>Users List</p>
+                  <p>Book List</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?php echo base_url()?>Admin/addNewUser" class="nav-link">
+                <a href="<?php echo base_url()?>Staff/addNewBook" class="nav-link">
                   <i class="fa fa-plus nav-icon"></i>
-                  <p>Add New User</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="<?php echo base_url()?>Admin/viewMembers" class="nav-link">
-                  <i class="fa fa-credit-card nav-icon"></i>
-                  <p>Membership List</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item has-treeview menu-open">
-            <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fas fa-exchange-alt"></i>
-              <p>
-                Transaction
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="<?php echo base_url()?>Admin/viewTransactions" class="nav-link">
-                  <i class="fa fa-list nav-icon"></i>
-                  <p>Transaction List</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="<?php echo base_url()?>Admin/viewHistory" class="nav-link">
-                  <i class="fa fa-history nav-icon"></i>
-                  <p>History</p>
+                  <p>Add New Book</p>
                 </a>
               </li>
             </ul>

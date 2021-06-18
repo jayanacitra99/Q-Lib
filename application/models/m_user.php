@@ -5,18 +5,21 @@ class M_user extends CI_Model {
 
 	public function getNewBooks(){
 		return $this->db->order_by('ID_BUKU', 'DESC')
+						->where('buku.STATUS', 'AVAILABLE')
 						->get('buku')
 						->result();
 	}	
 
 	public function getAllBooks(){
 		return $this->db->order_by('ID_BUKU', 'ASC')
+						->where('buku.STATUS', 'AVAILABLE')
 						->get('buku')
 						->result();
 	}
 
 	public function getInfoBook($bookid){
 		return $this->db->where('ID_BUKU',$bookid)
+						->where('buku.STATUS', 'AVAILABLE')
 						->get('buku')
 						->row();
 	}
@@ -24,6 +27,7 @@ class M_user extends CI_Model {
 	public function getLastRent(){
 		return $this->db->order_by('ID_TRANSACTION', 'DESC')
 						->join('buku', 'buku.ID_BUKU = transaction.ID_BUKU')
+						->where('buku.STATUS', 'AVAILABLE')
 						->get('transaction')
 						->result();
 	}
@@ -43,12 +47,14 @@ class M_user extends CI_Model {
 						->join('buku', 'buku.ID_BUKU = transaction.ID_BUKU')
 						->join('user', 'user.ID_USER = transaction.ID_USER')
 						->where('USERNAME',$username)
+						->where('transaction.STATUS','WAITING')
 						->where('transaction.ID_BUKU',$bookid)
 						->get('transaction')
 						->row();
 	}
 
 	public function returnThisBook($userid,$bookid,$transid,$fine,$quan){
+
 		$data = array(
 			'STATUS'		=> 'FINISH',
 			'FINE'			=> $fine,
@@ -58,12 +64,21 @@ class M_user extends CI_Model {
 				->where('ID_USER', $userid)
 				->where('ID_TRANSACTION', $transid)
 				->update('transaction', $data);
-
-		$data =  array(
-			'QUANTITY'	=> $quan+1
-		);
-		$this->db->where('ID_BUKU',$bookid)
-				->update('buku',$data);
+		
+		if($quan+1 == 1){
+			$data =  array(
+				'QUANTITY'	=> $quan+1,
+				'STATUS'	=> 'AVAILABLE'
+			);
+			$this->db->where('ID_BUKU',$bookid)
+					->update('buku',$data);
+		}else {
+			$data =  array(
+				'QUANTITY'	=> $quan+1,
+			);
+			$this->db->where('ID_BUKU',$bookid)
+					->update('buku',$data);
+		}
 
 		if($this->db->affected_rows() > 0){
 			return TRUE;
@@ -121,11 +136,20 @@ class M_user extends CI_Model {
 		);
 		$this->db->insert('transaction', $data);
 
-		$data = array(
-			'QUANTITY' => $quan-1,
-		);
-		$this->db->where('ID_BUKU', $bookid)
-				->update('buku', $data);
+		if($quan-1 == 0){
+			$data = array(
+				'QUANTITY' => $quan-1,
+				'STATUS' => 'UNAVAILABLE'
+			);
+			$this->db->where('ID_BUKU', $bookid)
+					->update('buku', $data);
+		} else {
+			$data = array(
+				'QUANTITY' => $quan-1,
+			);
+			$this->db->where('ID_BUKU', $bookid)
+					->update('buku', $data);
+		}
 
 		if($this->db->affected_rows() > 0){
 			return TRUE;

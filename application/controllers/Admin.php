@@ -28,20 +28,6 @@ class Admin extends CI_Controller {
 		}
 	}
 
-	public function viewBooks(){
-		if($this->session->userdata('logged_in') == TRUE){
-			$data['notif'] = $this->session->userdata('notif');
-			$this->session->unset_userdata('notif');
-			$data['success'] = $this->session->userdata('success');
-			$this->session->unset_userdata('success');
-			$data['books'] = $this->m_admin->getAllBooks();
-			$data['main_view'] = 'admin/book_list';
-			$this->load->view('admin/template_admin', $data);
-		} else {
-			redirect('Auth');
-		}
-	}
-
 	public function viewUsers(){
 		if($this->session->userdata('logged_in') == TRUE){
 			$data['notif'] = $this->session->userdata('notif');
@@ -98,19 +84,6 @@ class Admin extends CI_Controller {
 		}
 	}
 
-	public function addNewBook(){
-		if($this->session->userdata('logged_in') == TRUE){
-			$data['notif'] = $this->session->userdata('notif');
-			$this->session->unset_userdata('notif');
-			$data['success'] = $this->session->userdata('success');
-			$this->session->unset_userdata('success');
-			$data['main_view'] = 'admin/add_book';
-			$this->load->view('admin/template_admin', $data);
-		} else {
-			redirect('Auth');
-		}
-	}
-
 	public function addNewUser(){
 		if($this->session->userdata('logged_in') == TRUE){
 			$data['notif'] = $this->session->userdata('notif');
@@ -119,44 +92,6 @@ class Admin extends CI_Controller {
 			$this->session->unset_userdata('success');
 			$data['main_view'] = 'admin/add_user';
 			$this->load->view('admin/template_admin', $data);
-		} else {
-			redirect('Auth');
-		}
-	}
-
-	public function addBook(){
-		if($this->session->userdata('logged_in') == TRUE){
-			if($this->input->post('submit')){
-				$this->form_validation->set_rules('title', 'Title', 'trim|required|is_unique[buku.TITLE]',array('is_unique'=>'This %s already exists.'));
-				$this->form_validation->set_rules('publisher', 'Publisher', 'trim|required');
-				$this->form_validation->set_rules('writer', 'Writer', 'trim|required');
-				$this->form_validation->set_rules('year', 'Year', 'trim|required');
-				$this->form_validation->set_rules('quantity', 'Quantity', 'trim|required');
-
-				if ($this->form_validation->run() == TRUE) {
-					$config['upload_path'] = './uploads/buku/';
-					$config['allowed_types'] = 'jpeg|jpg|png';
-					$config['max_size']  = '4096';
-
-					$this->load->library('upload', $config);
-
-					if($this->upload->do_upload('foto')){
-						if($this->m_admin->addBook($this->upload->data()) == TRUE){
-							$this->session->set_flashdata('success', 'Input New Book Success!!');
-							redirect('Admin/addNewBook');
-						}
-					} else {
-						$this->session->set_flashdata('notif', $this->upload->display_errors());
-						redirect('Admin/addNewBook');
-					}
-				} else {
-					$this->session->set_flashdata('notif',validation_errors());
-					redirect('Admin/addNewBook');
-				}
-			} else {
-				$this->session->set_flashdata('notif', 'input gagal nih');
-					redirect('Admin/addNewBook');
-			}
 		} else {
 			redirect('Auth');
 		}
@@ -191,21 +126,6 @@ class Admin extends CI_Controller {
 		}
 	}
 
-	public function infoBook(){
-		if($this->session->userdata('logged_in') == TRUE){
-			$bookid = $this->uri->segment(3);
-			$data['notif'] = $this->session->userdata('notif');
-			$this->session->unset_userdata('notif');
-			$data['success'] = $this->session->userdata('success');
-			$this->session->unset_userdata('success');
-			$data['books'] = $this->m_admin->getInfoBook($bookid);
-			$data['main_view'] = 'admin/info_book';
-			$this->load->view('admin/template_admin', $data);
-		} else {
-			redirect('Auth');
-		}
-	}
-
 	public function infoUser(){
 		if($this->session->userdata('logged_in') == TRUE){
 			$userid = $this->uri->segment(3);
@@ -216,62 +136,6 @@ class Admin extends CI_Controller {
 			$data['users'] = $this->m_admin->getInfoUser($userid);
 			$data['main_view'] = 'admin/info_user';
 			$this->load->view('admin/template_admin', $data);
-		} else {
-			redirect('Auth');
-		}
-	}
-
-
-	public function editBook(){
-		if($this->session->userdata('logged_in') == TRUE){
-			$bookid = $this->uri->segment(3);
-			if($this->input->post('submit')){
-				$this->form_validation->set_rules('title', 'Title', 'trim|required');
-				$this->form_validation->set_rules('publisher', 'Publisher', 'trim|required');
-				$this->form_validation->set_rules('writer', 'Writer', 'trim|required');
-				$this->form_validation->set_rules('year', 'Year', 'trim|required');
-				$this->form_validation->set_rules('quantity', 'Quantity', 'trim|required');
-				if ($this->form_validation->run() == TRUE) {
-					if($this->m_admin->editBook($bookid) == TRUE){
-						$this->session->set_flashdata('success', 'Edit Book Success!!');
-						redirect('Admin/infoBook/'.$bookid);
-					}
-				} else {
-					$this->session->set_flashdata('notif',validation_errors());
-					redirect('Admin/infoBook/'.$bookid);
-				}
-			} else {
-				$this->session->set_flashdata('notif', 'input gagal nih');
-					redirect('Admin/infoBook/'.$bookid);
-			}
-		} else {
-			redirect('Auth');
-		}
-	}
-
-	public function editBookCover(){
-		if($this->session->userdata('logged_in') == TRUE){
-			$bookid = $this->uri->segment(3);
-			if($this->input->post('submit')){
-				$config['upload_path'] = './uploads/buku/';
-				$config['allowed_types'] = 'jpeg|jpg|png';
-				$config['max_size']  = '4096';
-
-				$this->load->library('upload', $config);
-
-				if($this->upload->do_upload('foto')){
-					if($this->m_admin->editBookCover($this->upload->data(),$bookid) == TRUE){
-						$this->session->set_flashdata('success', 'Edit Book Cover Success!!');
-						redirect('Admin/infoBook/'.$bookid);
-					}
-				} else {
-					$this->session->set_flashdata('notif', $this->upload->display_errors());
-					redirect('Admin/infoBook/'.$bookid);
-				}
-			} else {
-				$this->session->set_flashdata('notif', 'input gagal nih');
-					redirect('Admin/infoBook/'.$bookid);
-			}
 		} else {
 			redirect('Auth');
 		}
@@ -315,21 +179,6 @@ class Admin extends CI_Controller {
 			} else {
 				$this->session->set_flashdata('notif','Delet User Failed!!');
 				redirect('Admin/viewUsers');
-			}
-		} else {
-			redirect('Auth');
-		}
-	}
-
-	public function deleteBook(){
-		if($this->session->userdata('logged_in') == TRUE){
-			$bookid = $this->uri->segment(3);
-			if($this->m_admin->deleteBook($bookid) == TRUE){
-				$this->session->set_flashdata('success','Delete Book Success!');
-				redirect('Admin/viewBooks');
-			} else {
-				$this->session->set_flashdata('notif','Delet Book Failed!!');
-				redirect('Admin/viewBooks');
 			}
 		} else {
 			redirect('Auth');
